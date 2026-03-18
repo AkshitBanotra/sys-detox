@@ -2,16 +2,12 @@
  
 # ☠ sys-detox
  
-> *The grid doesn't care about your willpower. So you automate it.*
- 
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
  
-A CLI focus daemon for Linux. Kills distracting apps, locks you in, and lets you breathe on a timer — wired into systemd so it runs in the background like it should.
- 
-**No GUI. No hand-holding. Just signal and noise.**
+I built it for myself and thought it might be useful for others! For my case - When I wanted to play games during breaks, the time always slipped. So, I thought what if my system itself gets more strict so that I could specify that I need to play game in my break for that time window only and, it could just terminate the process automatically!
  
 </div>
  
@@ -19,12 +15,12 @@ A CLI focus daemon for Linux. Kills distracting apps, locks you in, and lets you
  
 ## Features
  
-- 🔒 **Focus mode** — kills distracting processes (Steam, Lutris, and whatever else you configure)
-- ⏱ **Timed breaks** — request a break window, it pulls you back when time's up
-- 📋 **Status at a glance** — see your current mode and remaining time instantly
-- 🔧 **systemd integration** — runs as a user service, persists across sessions
-- 🔔 **Notifications + audio cues** — via `notify-send` and `paplay`
-- ⚙️ **Simple config** — single JSON file, easy to modify
+- **Focus mode** — kills distracting processes (Steam, Lutris, and whatever else you configure)
+- **Timed breaks** — request a break window, it pulls you back when time's up
+- **Status at a glance** — see your current mode and remaining time instantly
+- **systemd integration** — runs as a user service, persists across sessions
+- **Notifications + audio cues** — via `notify-send` and `paplay`
+- **Simple config** — single JSON file, easy to modify
  
 ---
  
@@ -83,7 +79,7 @@ After this, `sys-detox` works as a regular command from anywhere in your termina
 ```bash
 sys-detox setup
 ```
-Registers the systemd user service. **Run once.**
+Registers the systemd user service. If you accidently again typed after its first run, it will tell you that its already configured.
  
 ---
  
@@ -99,7 +95,7 @@ Displays whether you're in **focus** or **break** mode, and remaining session ti
 ```bash
 sys-detox break <minutes>
 ```
-Suspends focus mode for the given number of minutes. Blocked apps are unkilled during the window. When the timer expires, focus mode kicks back in automatically.
+Suspends focus mode for the given number of minutes. The background scanner stops and we can use those bloclisted apps for specified time window. When the timer expires, focus mode kicks back in automatically.
  
 ```bash
 sys-detox break 60   # Example: 60 minutes breather
