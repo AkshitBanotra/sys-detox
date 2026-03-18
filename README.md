@@ -136,7 +136,7 @@ sys-detox (CLI)
     ├── argparse ──────────→ routes subcommands
     │
     ├── setup ─────────────→ writes systemd unit files
-    │                        creates default config.json
+    │                    
     │
     ├── status ────────────→ reads config.json
     │                        queries systemd service state
