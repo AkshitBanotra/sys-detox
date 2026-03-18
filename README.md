@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
  
->*I built it for myself and thought it might be useful for others! For my case - When I wanted to play games during breaks, the time always slipped. So, I thought what if my system itself gets more strict so that I could specify that I need to play game in my break for that time window only and, it could just terminate the process automatically!*
+>*I built it for myself and thought it might be useful for others! For my case - When I wanted to play games during breaks, the time always slipped. So, I thought what if my system itself gets more strict so that I could specify that I want to play game until that time and, it could just terminate the process automatically!*
  
 </div>
  
