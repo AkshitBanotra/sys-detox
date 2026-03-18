@@ -102,8 +102,7 @@ sys-detox break <minutes>
 Suspends focus mode for the given number of minutes. Blocked apps are unkilled during the window. When the timer expires, focus mode kicks back in automatically.
  
 ```bash
-sys-detox break 10   # 10-minute break
-sys-detox break 5    # quick 5-minute breather
+sys-detox break 60   # Example: 60 minutes breather
 ```
  
 ---
