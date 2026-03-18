@@ -51,7 +51,7 @@ A CLI focus daemon for Linux. Kills distracting apps, locks you in, and lets you
  
 ```bash
 # 1. Clone the repo into your home directory
-git clone https://github.com/yourusername/sys-detox.git ~/sys-detox
+git clone https://github.com/AkshitBanotra/sys-detox.git ~/sys-detox
 cd ~/sys-detox
  
 # 2. Install the Python dependency
