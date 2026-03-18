@@ -83,7 +83,7 @@ After this, `sys-detox` works as a regular command from anywhere in your termina
 ```bash
 sys-detox setup
 ```
-Registers the systemd user service and creates the default config file. **Run once.**
+Registers the systemd user service. **Run once.**
  
 ---
  
