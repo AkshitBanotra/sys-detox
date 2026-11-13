@@ -1,147 +1,92 @@
-<div align="center">
- 
-# ☠ sys-detox
- 
-![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python&logoColor=white)
-![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
- 
->*I built it for myself and thought it might be useful for others! For my case - When I wanted to play games during breaks, the time always slipped. So, I thought what if my system itself gets more strict so that I could specify that I want to play game until that time and, it could just terminate the process automatically after timer expires.*
- 
-</div>
- 
----
- 
+# sys-detox
+
+A Linux CLI utility for managing focus sessions and timed breaks by automatically terminating configured distracting processes.
+
 ## Features
- 
-- **Focus mode** — kills distracting processes (Steam, Lutris, and whatever else you configure)
-- **Timed breaks** — request a break window, it pulls you back when time's up
-- **Status at a glance** — see your current mode and remaining time instantly
-- **systemd integration** — runs as a user service, persists across sessions
-- **Notifications + audio cues** — via `notify-send` and `paplay`
-- **Simple config** — single JSON file, easy to modify
- 
----
- 
+
+- **Focus mode:** Terminates configured processes.
+- **Timed breaks:** Temporarily suspends process monitoring.
+- **Session status:** Displays the current mode and remaining time.
+- **systemd integration:** Runs as a user-level background service.
+- **Notifications:** Desktop notifications and audio alerts.
+- **Configuration:** JSON-based configuration.
+
 ## Requirements
- 
-**Python**
-| Package | Purpose |
-|---------|---------|
-| `rich` | Terminal output formatting |
- 
-**System**
-| Tool | Purpose |
-|------|---------|
-| `systemd` | Background daemon management |
+
+| Dependency | Purpose |
+|---|---|
+| Python 3.8+ | Runtime |
+| `rich` | Terminal formatting |
+| `systemd` | Background service |
 | `notify-send` | Desktop notifications |
-| `paplay` | Audio cues |
-| `pkill` | Process termination |
- 
----
- 
+| `paplay` | Audio alerts |
+| `pkill` | Process management |
+
 ## Installation
- 
-> **Note:** An automated install script is planned. For now, set it up manually — it takes under a minute.
- 
+
 ```bash
-# 1. Clone the repo into your home directory
-git clone https://github.com/AkshitBanotra/sys-detox.git ~/sys-detox
-cd ~/sys-detox
- 
-# 2. Install the Python dependency
+git clone https://github.com/AkshitBanotra/sys-detox.git
+cd sys-detox
+
 pip install rich
- 
-# 3. Make the script executable and strip the .py extension
+
 chmod +x sys-detox.py
 mv sys-detox.py sys-detox
- 
-# 4. Move it to ~/.local/bin
+
 mkdir -p ~/.local/bin
-cp sys-detox ~/.local/bin/sys-detox
- 
-# 5. Add ~/.local/bin to PATH (if not already)
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
- 
-# 6. Run first-time setup
+cp sys-detox ~/.local/bin/
+
+export PATH="$HOME/.local/bin:$PATH"
+
 sys-detox setup
 ```
- 
-After this, `sys-detox` works as a regular command from anywhere in your terminal.
- 
----
- 
+
 ## Usage
- 
-### `setup` — First-time initialization
+
+| Command | Description |
+|---|---|
+| `sys-detox setup` | Initialize the systemd service |
+| `sys-detox status` | Display the current session status |
+| `sys-detox break <minutes>` | Start a timed break |
+
+Example:
+
 ```bash
-sys-detox setup
+sys-detox break 60
 ```
-Registers the systemd user service. If you accidently again typed after its first run, it will tell you that its already configured.
- 
----
- 
-### `status` — Check current mode
-```bash
-sys-detox status
-```
-Displays whether you're in **focus** or **break** mode, and remaining session time if active.
- 
----
- 
-### `break` — Take a timed break
-```bash
-sys-detox break <minutes>
-```
-Suspends focus mode for the given number of minutes. The background scanner stops and we can use those bloclisted apps for specified time window. When the timer expires, focus mode kicks back in automatically.
- 
-```bash
-sys-detox break 60   # Example: 60 minutes breather
-```
- 
----
- 
-## Config
- 
-Located at `~/sys-detox/config.json`.
- 
+
+## Configuration
+
+Configuration is stored in `~/sys-detox/config.json`.
+
 ```json
 {
   "mode": "focus",
   "time": 25
 }
 ```
- 
-| Key | Values | Description |
-|-----|--------|-------------|
-| `mode` | `"focus"` / `"break"` | Current active mode |
-| `time` | integer (minutes) | Session duration |
- 
-To block additional apps, find the `pkill` targets in the source and append your own process names. If it has a process name, it can be killed.
- 
----
- 
-## How It Works
- 
+
+| Key | Description |
+|---|---|
+| `mode` | Current mode: `focus` or `break` |
+| `time` | Session duration in minutes |
+
+Additional processes can be configured by modifying the process targets in the source code.
+
+## Architecture
+
+```text
+CLI
+ ├── Argument parsing
+ ├── Configuration management
+ ├── systemd service
+ │    └── Background process monitoring
+ ├── Process management
+ └── Notifications and audio alerts
 ```
-sys-detox (CLI)
-    │
-    ├── argparse ──────────→ routes subcommands
-    │
-    ├── setup ─────────────→ writes systemd unit files
-    │                    
-    │
-    ├── status ────────────→ reads config.json
-    │                        queries systemd service state
-    │                        renders via rich
-    │
-    └── break ─────────────→ updates config.json
-                             signals systemd service
-                             countdown via time module
-                             notify-send + paplay for alerts
-                             auto-reverts to focus on expiry
-```
- 
-The daemon runs as a **systemd user service** — no root required. State is managed via a JSON file over IPC. `subprocess` bridges Python to the shell, delegating OS operations like process termination and service management.
+
+The utility uses a systemd user service to manage background execution without requiring root privileges. Configuration is maintained through a JSON file, while Python's `subprocess` module handles system-level operations.
+
+## License
+
+MIT
